@@ -1,3 +1,9 @@
+import model.Epic;
+import model.SubTask;
+import model.Task;
+import model.Status;
+import service.TaskManager;
+
 public class Main {
     public static void main(String[] args) {
         TaskManager manager = new TaskManager();
@@ -13,48 +19,77 @@ public class Main {
 
         manager.createTask(task1);
         manager.createTask(task2);
+        System.out.println(manager.getTasks());
+
         manager.createEpic(epic1);
-        manager.createSubTask(epic1,subTask1);
-        manager.createSubTask(epic1,subTask2);
         manager.createEpic(epic2);
-        manager.createSubTask(epic2,subTask3);
-        manager.printAll();
+        System.out.println(manager.getEpics());
+        subTask1.setEpicId(epic1.getId());
+        subTask2.setEpicId(epic1.getId());
+        manager.createSubTask(subTask1);
+        manager.createSubTask(subTask2);
+        subTask3.setEpicId(epic2.getId());
+        manager.createSubTask(subTask3);
+        System.out.println(manager.getSubTasks());
 
-        System.out.println("Вывод задачи с id: " + 1);
-        System.out.println(manager.getById(1));
 
-        System.out.println("Вывод подзадач эпика: " + 2);
-        System.out.println(manager.getEpicSubTask(epic1));
+        System.out.println("Вывод задачи с id: " + task1.getId());
+        System.out.println(manager.getTaskById(task1.getId()));
+
+        System.out.println("Вывод эпика с id: " + epic1.getId());
+        System.out.println(manager.getEpicById(epic1.getId()));
+
+        System.out.println("Вывод сабтаска с id:" + subTask1.getId());
+        System.out.println(manager.getSubTaskById(subTask1.getId()));
 
         System.out.println("Обновление задачи");
-        task1.description = "111";
+        task1.setDescription("111");
         manager.updateTask(task1);
-        task2.description = "222";
+        task2.setDescription("222");
         manager.updateTask(task2);
-        manager.printAll();
-        manager.updateTask(task1);
-        manager.printAll();
+        System.out.println(manager.getTasks());
+
+        manager.setTaskStatus(Status.IN_PROGRESS,task1);
+        manager.setTaskStatus(Status.DONE,task2);
+        System.out.println(manager.getTasks());
+
+        manager.deleteTaskById(task2.getId());
+        System.out.println(manager.getTasks());
 
         System.out.println("Обновление эпика");
-        subTask1.description = "11";
-        manager.updateEpic(subTask1);
-        manager.printAll();
-        subTask2.description = "22";
-        manager.updateEpic(subTask2);
-        manager.printAll();
-        subTask1.description = "1111";
-        manager.updateEpic(subTask1);
-        subTask2.description = "2222";
-        manager.updateEpic(subTask2);
-        manager.printAll();
+        epic1.setDescription("11");
+        manager.updateEpic(epic1);
+        subTask2.setDescription("22");
+        subTask2.setStatus(Status.IN_PROGRESS);
+        manager.updateSubTask(subTask2);
+        System.out.println(manager.getEpics());
+        System.out.println(manager.getEpicsSubTask(epic1));
 
-        System.out.println("Удаление по id");
-        manager.deleteById(4);
-        manager.deleteById(0);
-        manager.deleteById(10);
-        manager.printAll();
-        manager.clearAll();
+        subTask3.setStatus(Status.DONE);
+        manager.updateSubTask(subTask3);
+        System.out.println(manager.getEpics());
+        System.out.println(manager.getSubTasks());
 
+        manager.deleteEpicById(epic2.getId());
+        System.out.println(manager.getEpics());
+        System.out.println(manager.getSubTasks());
+
+        manager.setSubTaskStatus(Status.IN_PROGRESS,subTask1);
+        manager.updateSubTask(subTask1);
+        System.out.println(manager.getSubTasks());
+        System.out.println(manager.getSubTaskById(subTask1.getId()));
+        manager.deleteSubTaskById(subTask1.getId());
+        manager.setSubTaskStatus(Status.DONE, subTask2);
+        System.out.println(manager.getSubTasks());
+        System.out.println(manager.getEpics());
+
+        manager.deleteSubTasks();
+        System.out.println(manager.getEpics());
+
+        manager.deleteTasks();
+        System.out.println(manager.getTasks());
+
+        manager.deleteEpics();
+        System.out.println(manager.getEpics());
     }
 }
-
