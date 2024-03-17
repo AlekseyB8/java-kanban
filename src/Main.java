@@ -68,6 +68,8 @@ public class Main {
         subTask3.setStatus(Status.DONE);
         manager.updateSubTask(subTask3);
         System.out.println(manager.getEpics());
+        manager.deleteSubTaskById(subTask3.getId());
+        System.out.println(manager.getEpics());
         System.out.println(manager.getSubTasks());
 
         manager.deleteEpicById(epic2.getId());
