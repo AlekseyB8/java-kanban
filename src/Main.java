@@ -49,8 +49,8 @@ public class Main {
         manager.updateTask(task2);
         System.out.println(manager.getTasks());
 
-        manager.setTaskStatus(Status.IN_PROGRESS,task1);
-        manager.setTaskStatus(Status.DONE,task2);
+        manager.updateStatus(task1, Status.IN_PROGRESS);
+        manager.updateStatus(task2, Status.DONE);
         System.out.println(manager.getTasks());
 
         manager.deleteTaskById(task2.getId());
@@ -60,8 +60,8 @@ public class Main {
         epic1.setDescription("11");
         manager.updateEpic(epic1);
         subTask2.setDescription("22");
-        subTask2.setStatus(Status.IN_PROGRESS);
         manager.updateSubTask(subTask2);
+        manager.updateStatus(subTask2, Status.IN_PROGRESS);
         System.out.println(manager.getEpics());
         System.out.println(manager.getEpicsSubTask(epic1));
 
@@ -74,12 +74,13 @@ public class Main {
         System.out.println(manager.getEpics());
         System.out.println(manager.getSubTasks());
 
-        manager.setSubTaskStatus(Status.IN_PROGRESS,subTask1);
+        manager.updateStatus(subTask1, Status.IN_PROGRESS);
         manager.updateSubTask(subTask1);
+        System.out.println(manager.getEpics());
         System.out.println(manager.getSubTasks());
         System.out.println(manager.getSubTaskById(subTask1.getId()));
         manager.deleteSubTaskById(subTask1.getId());
-        manager.setSubTaskStatus(Status.DONE, subTask2);
+        manager.updateStatus(subTask2, Status.DONE);
         System.out.println(manager.getSubTasks());
         System.out.println(manager.getEpics());
 
