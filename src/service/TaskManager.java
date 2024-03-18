@@ -111,14 +111,12 @@ public class TaskManager {
         return epicsSubTask;
     }
 
-    public void updateStatus(Object object, Status status) {
-        if (object instanceof Task){
-            Task task = (Task) object;
+    public void updateStatus(Task task, Status status) {
             task.setStatus(status);
             tasks.put(task.getId(),task);
-        }
-        if (object instanceof SubTask) {
-            SubTask subTask = (SubTask) object;
+    }
+
+    public void updateStatus(SubTask subTask, Status status) {
             Epic epic = epics.get(subTask.getEpicId());
             subTask.setStatus(status);
             for (int id : epic.getSubTasksId()) {
@@ -130,5 +128,4 @@ public class TaskManager {
             subTasks.put(subTask.getId(),subTask);
             epics.put(epic.getId(),epic);
         }
-    }
 }
