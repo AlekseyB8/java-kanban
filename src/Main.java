@@ -1,12 +1,9 @@
-import model.Epic;
-import model.SubTask;
-import model.Task;
-import model.Status;
-import service.TaskManager;
-
+import model.*;
+import service.*;
 public class Main {
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        TaskManager manager = Managers.getDefault();
+
         Task task1 = new Task("Task", "1");
         Task task2 = new Task("Task", "2");
 
