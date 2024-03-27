@@ -8,13 +8,20 @@ import service.TaskManager;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TaskTest {
     TaskManager taskManager = Managers.getDefault();
     HistoryManager historyManager = Managers.getDefaultHistory();
-    Task task = new Task("Test addNewTask", "Test addNewTask description");
-    Epic epic = new Epic("Test addNewEpic", "Test addNewEpic description");
-    SubTask subTask = new SubTask("Test addNewSubtask", "Test addNewSubtask description");
+    Task task;
+    Epic epic;
+    SubTask subTask;
+    @BeforeEach
+    void beforeEach() {
+        task = new Task("Test addNewTask", "Test addNewTask description");
+        epic = new Epic("Test addNewEpic", "Test addNewEpic description");
+        subTask = new SubTask("Test addNewSubtask", "Test addNewSubtask description");
+    }
 
     @Test
     void addNewTask() {
@@ -49,7 +56,9 @@ public class TaskTest {
     @Test
     void addNewSubTask() {
         taskManager.createEpic(epic);
+        assertNotNull(taskManager.getEpics().get(0),"Задача не найдена.");
         subTask.setEpicId(epic.getId());
+        assertEquals(epic.getId(), subTask.getEpicId(), "Id эпика не совпадают.");
         taskManager.createSubTask(subTask);
         final SubTask savedSubTask = taskManager.getSubTaskById(subTask.getId());
 
@@ -63,6 +72,24 @@ public class TaskTest {
         assertEquals(subTask, subTasks.get(0), "Задачи не совпадают.");
     }
 
+    @Test
+    void deleteAllTasks() {
+        taskManager.deleteTasks();
+        assertEquals(0,taskManager.getTasks().size(), "Задачи удалены.");
+    }
+
+    @Test
+    void deleteAllEpics() {
+        taskManager.deleteEpics();
+        assertEquals(0, taskManager.getEpics().size(), "Эпики удалены.");
+        assertEquals(0, taskManager.getSubTasks().size(), "Сабтаски удалены.");
+    }
+
+    @Test
+    void deleteAllSubTask() {
+        taskManager.deleteSubTasks();
+        assertEquals(0,taskManager.getSubTasks().size(), "Сабтаски удалены.");
+    }
     @Test
     void addHistory() {
         historyManager.add(task);

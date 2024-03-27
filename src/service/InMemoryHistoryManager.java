@@ -1,5 +1,7 @@
 package service;
 
+import model.Epic;
+import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
@@ -13,11 +15,12 @@ public class InMemoryHistoryManager implements  HistoryManager {
 
     @Override
     public List<Task> getHistory() {
-        return  tasksHistory;
+        return  new ArrayList<>(tasksHistory);
     }
 
     @Override
     public void add(Task task) {
+        if (task == null) return;
         if (tasksHistory.size() >= MAX_TASKS_IN_HISTORY) {
             tasksHistory.removeFirst();
         }
